@@ -37,9 +37,9 @@ public class App {
     /** z/OS Connect server administration role user's password */
     private final static String adminPassword = "admin";
     /** Truststore containing z/OS Connect server's public certificate */
-    private final static String trustStoreLocation = "/Users/smithson/Documents/gitprojects/mbean-api-lister/key.p12";
+    private final static String trustStoreLocation = "key.p12";
     /** Truststore password */
-    private final static String trustStorePassword = "IFVQffwHptx9RT7Z0IPSiJp507VEw7SZKHobXVtY+bg=";
+    private final static String trustStorePassword = "password";
 
     public String getApiStatus() throws IOException {
         //Configure the SSL properties
@@ -59,7 +59,7 @@ public class App {
             JSONObject obj = (JSONObject) it.next();
             String objName = obj.get("objectName").toString();
             //Get the status of the API
-            JSONObject stateObj = new JSONObject(IOUtils.toString(new URL("https://" + hostname + ":"+ httpsPort + "/IBMJMXConnectorREST/mbeans/"+objName+"/attributes/State")));
+            JSONObject stateObj = new JSONObject(IOUtils.toString(new URL("https://" + hostname + ":"+ httpsPort + "/IBMJMXConnectorREST/mbeans/"+objName+"/attributes/State"), Charset.forName("UTF-8")));
             //Output the name of the API and its status
             System.out.println(objName.split("=")[2] + ":" + stateObj.getString("value"));
         }
